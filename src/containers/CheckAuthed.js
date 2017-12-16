@@ -8,6 +8,7 @@ export default function(ComposedComponent) {
   class CheckAuthed extends Component {
     componentWillMount() {
         if(!this.props.authed ){
+         // console.log('xxxxxxxxxxx',this.props.authed)
           browserHistory.push('/');
         }
     }
