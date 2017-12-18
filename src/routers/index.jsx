@@ -10,7 +10,7 @@ class RoutesIndex extends Component {
   const {history} = this.props
     return (
       <div>
-      {this.props.authed===undefined?<div><h1>Loading</h1></div>
+      {this.props.authed===''?<div><h1>Loading</h1></div>
         : <Routes
           history={history}
           authed={this.props.authed}

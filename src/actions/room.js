@@ -1,8 +1,4 @@
 import { CALL_API } from 'redux-api-middleware';
-import { ROOMSCOL_ENDPOINT,
-         ROOMS_ENDPOINT,
-         ROOMCOL_ENDPOINT,
-         RESERVE_ENDPOINT } from '../constants/endpoints';
 import { browserHistory } from 'react-router';
 import {
   LOAD_ROOMSCOL_REQUEST,LOAD_ROOMSCOL_SUCCESS,LOAD_ROOMSCOL_FAILURE,
@@ -16,125 +12,218 @@ import {
   LOAD_RESERVE_REQUEST,LOAD_RESERVE_SUCCESS,LOAD_RESERVE_FAILURE
 
 } from '../constants/actionTypes';
+import { addInfo,getInfo,getInfoById,delInfo,updateInfo,delTable } from '../Auth/auth';
 
-
-export const loadRoomcol = (id) => ({
-  [CALL_API]: {
-    endpoint: `${ROOMCOL_ENDPOINT}/${id}/.json`,
-    method: 'GET',
-    types: [LOAD_ROOMCOL_REQUEST, 
-            LOAD_ROOMCOL_SUCCESS, 
-            LOAD_ROOMCOL_FAILURE]
+export function loadRoomcol(id){
+  return dispatch=>{
+    dispatch(loadRoomcolRequest());
+    getInfoById('roomscol',id)
+    .then((snap)=>{
+      dispatch(loadRoomcolSuccess(snap.val()))
+    })
+      .catch((error)=>{
+        dispatch(loadRoomcolFailure());
+      })
   }
-})
+}
 
-export const loadRoomscol = () => ({
-  [CALL_API]: {
-    endpoint: ROOMSCOL_ENDPOINT,
-    method: 'GET',
-    types: [LOAD_ROOMSCOL_REQUEST,          
-            LOAD_ROOMSCOL_SUCCESS,
-            LOAD_ROOMSCOL_FAILURE]
+function loadRoomcolRequest(){
+  return{
+    type:LOAD_ROOMCOL_REQUEST
   }
-})
-
-export const loadRooms = () => ({
-  [CALL_API]:{
-    endpoint:ROOMS_ENDPOINT,
-    method:'GET',
-    types:[LOAD_ROOMS_REQUEST,
-           LOAD_ROOMS_SUCCESS,
-           LOAD_ROOMS_FAILURE]
+}
+function loadRoomcolSuccess(roomcol){
+  return{
+    type:LOAD_ROOMCOL_SUCCESS,
+    payload:roomcol
   }
-})
+}
+function loadRoomcolFailure(){
+  return{
+    type:LOAD_ROOMCOL_FAILURE
+  }
+}
 
-const createRooms = (values) =>(
-  (dispatch) =>
-    dispatch({
-      [CALL_API]: {
-        endpoint: ROOMS_ENDPOINT,
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        method: 'POST',
-        body: JSON.stringify(roomsNum(values)),
-        types: [
-                CREATE_ROOMS_REQUEST,
-                 {
-                    type: CREATE_ROOMS_SUCCESS,
-                    payload: (_action, _state, res) => {
-                      dispatch(loadRooms());
-                    }
-                  },
-                CREATE_ROOMS_FAILURE
-                ]
-      }
+export function loadRoomscol(){
+  return dispatch=>{
+      dispatch(loadRoomscolRequest());
+      getInfo('roomscol')
+      .then((snap)=>{
+        dispatch(loadRoomscolSuccess(snap.val()))
+      })
+      .catch((error)=>{
+        dispatch(loadRoomscolFailure());
+      })
+  }
+}
+
+function loadRoomscolRequest(){
+  return{
+    type:LOAD_ROOMSCOL_REQUEST
+  }
+}
+function loadRoomscolSuccess(roomscol){
+  return{
+    type:LOAD_ROOMSCOL_SUCCESS
+  }
+}
+function loadRoomscolFailure(){
+  return{
+    type:LOAD_ROOMSCOL_FAILURE
+  }
+}
+
+export function loadRooms(){
+  return dispatch=>{
+    dispatch(loadRoomsRequest());
+    getInfo('rooms')
+    .then((snap)=>{
+      dispatch(loadRoomsSuccess(snap.val()));
+    })
+    .catch((error)=>{
+      dispatch(loadRoomsFailure());
+    })
+  }
+}
+function loadRoomsRequest(){
+  return{
+    type:LOAD_ROOMS_REQUEST
+  }
+}
+function loadRoomsSuccess(rooms){
+  return{
+    type:LOAD_ROOMS_SUCCESS,
+    payload:rooms
+  }
+}
+function loadRoomsFailure(){
+  return{
+    type:LOAD_ROOMS_FAILURE
+  }
+}
+
+function createRooms(values){
+  return dispatch=>{
+    dispatch(createRoomsRequest());
+    addInfo('rooms',values)
+    .then((snap)=>{
+      dispatch(createRoomsSuccess());
+    })
+    .catch((error)=>{
+      dispatch(createRoomsFailure());
+    })
+  }
+}
+function createRoomsRequest(){
+  return{
+    type:CREATE_ROOMS_REQUEST
+  }
+}
+function createRoomsSuccess(){
+  return{
+    type:CREATE_ROOMS_SUCCESS
+  }
+}
+function createRoomsFailure(){
+  return{
+    type:CREATE_ROOMS_FAILURE
+  }
+}
+
+export function cleanRooms(){
+  return dispatch=>{
+    dispatch(cleanRoomsRequest());
+    delTable('rooms')
+    .then((snap)=>{
+      dispatch(cleanRoomsSuccess());
+    })
+    .catch((error)=>{
+      dispatch(cleanRoomsFailure());
+    })
+  }
+}
+function cleanRoomsRequest(){
+  return{
+    type:DELETE_ROOMS_REQUEST
+  }
+}
+function cleanRoomsSuccess(){
+  return{
+    type:DELETE_ROOMS_SUCCESS,
+    payload:{
+      status:true
     }
-  )
-
-)
-
-export const cleanRooms = () =>({
-   [CALL_API]:{
-    endpoint: ROOMS_ENDPOINT,
-    method: 'DELETE',
-    types: [
-            DELETE_ROOMS_REQUEST,
-            {
-              type:DELETE_ROOMS_SUCCESS,
-              payload: {
-                status:true
-              }
-            },
-            DELETE_ROOMS_FAILURE
-            ]
-    }
-})
-
-export const cleanRoomsCol = () =>({
-  [CALL_API]: {
-    endpoint: ROOMSCOL_ENDPOINT,
-    method: 'DELETE',
-    types: [
-            DELETE_ROOMSCOL_REQUEST,
-             {
-              type:DELETE_ROOMSCOL_SUCCESS,
-              payload: {
-                status:true
-              }
-            },
-            DELETE_ROOMSCOL_FAILURE
-            ]
   }
-})
+}
+function cleanRoomsFailure(){
+  return{
+    type:DELETE_ROOMS_FAILURE
+  }
+}
 
-const createRoomscol = (values) => (
-  (dispatch) =>
-    dispatch({
-      [CALL_API]: {
-        endpoint: ROOMSCOL_ENDPOINT,
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        method: 'POST',
-        body: JSON.stringify(values),
-        types: [
-          CREATE_ROOMSCOL_REQUEST,
-          {
-            type: CREATE_ROOMSCOL_SUCCESS,
-            payload: (_action, _state, res) => {
-              dispatch(loadRoomscol());
-            }
-          },
-          CREATE_ROOMSCOL_FAILURE
-        ]
-      }
+export function cleanRoomsCol(){
+  return dispatch=>{
+    dispatch(cleanRoomsColRequest());
+    delTable('roomscol')
+    .then((snap)=>{
+      dispatch(cleanRoomsColSuccess());
+    })
+    .catch((error)=>{
+      dispatch(cleanRoomsColFailure());
+    })
+  }
+}
+
+function cleanRoomsColRequest(){
+  return{
+    type:DELETE_ROOMSCOL_REQUEST
+  }
+}
+function cleanRoomsColSuccess(){
+  return{
+    type:DELETE_ROOMSCOL_SUCCESS,
+    payload:{
+      status:true
     }
-  )
+  }
+}
+function cleanRoomsColFailure(){
+  return{
+    type:DELETE_ROOMSCOL_FAILURE
+  }
+}
 
-)
+
+function createRoomscol(values){
+  return dispatch=>{
+    dispatch(createRoomscolRequest());
+    addInfo('roomscol',values)
+    .then((snap)=>{
+      dispatch(createRoomscolSuccess(snap.val()))
+    })
+    .catch((error)=>{
+      dispatch(createRoomscolFailure())
+    })
+  }
+}
+function createRoomscolRequest(){
+  return{
+    type:CREATE_ROOMSCOL_REQUEST
+  }
+}
+function createRoomscolSuccess(roomscol){
+  return{
+    type:CREATE_ROOMSCOL_SUCCESS,
+    payload:roomscol
+  }
+}
+function createRoomscolFailure(){
+  return{
+    type:CREATE_ROOMSCOL_FAILURE
+  }
+}
+
+
 
 export const updateRoomscol=(values,level)=>(
    (dispatch)=>{
@@ -245,39 +334,59 @@ return str.length < max ? pad("0" + str, max) : str;
  
 //  /////////////////////////  Reserve ////////////////////////////
 
-export const addReserve = (values) =>(
-  (dispatch) =>
-    dispatch({
-      [CALL_API]: {
-        endpoint: RESERVE_ENDPOINT,
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        },
-        method: 'POST',
-        body: JSON.stringify(values),
-        types: [
-          CREATE_RESERVE_REQUEST,
-          {
-            type: CREATE_RESERVE_SUCCESS,
-            payload: (_action, _state, res) => {
-
-            }
-          },
-          CREATE_RESERVE_FAILURE
-        ]
-      }
-    }
-  )
-
-)
-
-export const loadReserve = () => ({
-  [CALL_API]: {
-    endpoint: RESERVE_ENDPOINT,
-    method: 'GET',
-    types: [LOAD_RESERVE_REQUEST,          
-            LOAD_RESERVE_SUCCESS,
-            LOAD_RESERVE_FAILURE]
+export function addReserve(values){
+  return dispatch=>{
+    dispatch(addReserveRequest());
+    addInfo('reserve',values)
+    .then((snap)=>{
+      dispatch(addReserveSuccess());
+    })
+    .catch((error)=>{
+      dispatch(addReserveFailure());
+    })
   }
-})
+}
+function addReserveRequest(){
+  return{
+    type:CREATE_RESERVE_REQUEST
+  }
+}
+function addReserveSuccess(){
+  return{
+    type:CREATE_RESERVE_SUCCESS
+  }
+}
+function addReserveFailure(){
+  return{
+    type:CREATE_RESERVE_FAILURE
+  }
+}
+
+export function loadReserve(){
+  return dispatch=>{
+    dispatch(loadReserveRequest());
+    getInfo('reserve')
+    .then((snap)=>{
+      dispatch(loadReserveSuccess(snap.val()));
+    })
+    .catch((error)=>{
+      dispatch(loadReserveFailure());
+    })
+  }
+}
+function loadReserveRequest(){
+  return{
+    type:LOAD_RESERVE_REQUEST
+  }
+}
+function loadReserveSuccess(reserve){
+  return{
+    type:LOAD_RESERVE_SUCCESS,
+    payload:reserve
+  }
+}
+function loadReserveFailure(){
+  return{
+    type:LOAD_RESERVE_FAILURE
+  }
+}

@@ -1,6 +1,5 @@
 import { CALL_API } from 'redux-api-middleware';
 import { push } from 'react-router-redux';
-import { PAGES_ENDPOINT,PAGE_ENDPOINT } from '../constants/endpoints';
 import { browserHistory } from 'react-router';
 import { addInfo,getInfo,getInfoById,delInfo,updateInfo } from '../Auth/auth';
 import {
@@ -41,7 +40,7 @@ export function loadPage(id){
 export function createPage(values){
   return dispatch=>{
     dispatch(createPageRequest());
-    addInfo(values,'pages')
+    addInfo('pages',values)
     .then(()=>{
       dispatch(createPageSuccess())
       .then(function(res){

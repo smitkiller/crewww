@@ -27,7 +27,7 @@ export function saveUser (user) {
     .then(() => user)
 }
 
-export function addInfo(values,table){
+export function addInfo(table,values){
   return ref.child(table).push()
           .set(values).then(()=>values)
 }
@@ -42,6 +42,10 @@ export function getInfoById(table,id){
 
 export function delInfo(table,id){
   return database.ref(`/${table}`).child(id).remove()
+}
+
+export function delTable(table){
+  return database.ref(`/${table}`).remove()
 }
 
 export function updateInfo(table,values){
