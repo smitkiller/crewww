@@ -1,18 +1,23 @@
 import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
-
+import { firebaseAuth } from '../constants/configAuth'
 
     
 export default function(ComposedComponent) {
   class CheckAuthed extends Component {
-    componentWillMount() {
-        if(!this.props.authed ){
-         // console.log('xxxxxxxxxxx',this.props.authed)
-          browserHistory.push('/');
-        }
-    }
 
+       state = {
+          authed: false,
+          loading: true,
+        }
+      componentDidMount () {
+            this.removeListener = firebaseAuth().onAuthStateChanged((user) => {
+              if (!user) {
+                  browserHistory.push('/');
+              }
+            })
+      }
 
     render() {
       return (
@@ -23,11 +28,12 @@ export default function(ComposedComponent) {
 
 
 
-  function mapStateToProps(state) {
-    return {
-      authed: state.login.authed
-    };
-  }
+  //function mapStateToProps(state) {
+ //   return {
+ //     authed: state.login.authed
+  //  };
+  //}
 
-  return connect(mapStateToProps)(CheckAuthed);
+  //return connect(mapStateToProps)(CheckAuthed);
+  return CheckAuthed;
 }

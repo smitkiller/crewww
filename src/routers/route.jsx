@@ -24,7 +24,7 @@ import {
 
 class Routes extends Component {
   render() {
-  const {history,authed} = this.props
+  const {history} = this.props
 
     return (
       <div>

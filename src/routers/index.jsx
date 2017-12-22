@@ -10,27 +10,25 @@ class RoutesIndex extends Component {
   const {history} = this.props
     return (
       <div>
-      {this.props.authed===''?<div><h1>Loading</h1></div>
-        : <Routes
+  <Routes
           history={history}
-          authed={this.props.authed}
          />
-       }
+       
       </div>
     )
   }
 }
 
-function mapStateToProps(state){
-  return{
-    authed:state.login.authed
-  };
-}
+//function mapStateToProps(state){
+//  return{
+//    authed:state.login.authed
+//  };
+//}
 
 
 
 
 
- RoutesIndex = connect(mapStateToProps)(RoutesIndex);
+ //RoutesIndex = connect(mapStateToProps)(RoutesIndex);
 
 export default RoutesIndex;

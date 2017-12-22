@@ -4,9 +4,7 @@ import {
   LOGOUT_USER_SUCCESS
 } from '../constants/actionTypes';
 
-const initialState = {
-          authed:''
-        }
+const initialState = [];
 
 export default (state = initialState, action) => {
   switch(action.type) {

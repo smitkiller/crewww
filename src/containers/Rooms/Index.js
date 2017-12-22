@@ -11,10 +11,10 @@ class RoomscolContainer extends Component {
     onLoadRoomscol: PropTypes.func.isRequired
   }
 
-  static need = [
-    loadRoomscol
-  ]
-
+  //static need = [
+  //  loadRoomscol
+ // ]
+// ถ้าให้ static need loadRoomscol จะไม่สามารถใช้ loadRoomscol ซ้ำได้
   shouldComponentUpdate(nextProps) {
     return this.props.roomscol !== nextProps.roomscol;
   }

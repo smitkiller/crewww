@@ -32,10 +32,10 @@ function loadRoomcolRequest(){
     type:LOAD_ROOMCOL_REQUEST
   }
 }
-function loadRoomcolSuccess(roomcol){
+function loadRoomcolSuccess(roomscol){
   return{
     type:LOAD_ROOMCOL_SUCCESS,
-    payload:roomcol
+    payload:roomscol
   }
 }
 function loadRoomcolFailure(){
@@ -64,7 +64,8 @@ function loadRoomscolRequest(){
 }
 function loadRoomscolSuccess(roomscol){
   return{
-    type:LOAD_ROOMSCOL_SUCCESS
+    type:LOAD_ROOMSCOL_SUCCESS,
+    payload:roomscol
   }
 }
 function loadRoomscolFailure(){

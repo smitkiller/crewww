@@ -1,12 +1,13 @@
 import React,{Component,PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {Header,Reserve} from '../../components';
-import {loadRooms} from '../../actions';
+import {loadRooms,loadRoomscol} from '../../actions';
 
 class ReserveContainer extends Component {
    
   static propTypes = {
-    	onLoadRooms:PropTypes.func.isRequired
+    	onLoadRooms:PropTypes.func.isRequired,
+    	onLoadRoomsCol:PropTypes.func.isRequired
     }
 
 	shouldComponentUpdate(nextProps){
@@ -16,9 +17,12 @@ class ReserveContainer extends Component {
 	onReloadRooms = () =>{
     	this.props.onLoadRooms();
     }
-
+	onReloadRoomsCol = () =>{
+    	this.props.onLoadRoomsCol();
+    }
 	componentWillMount(){
 		this.onReloadRooms();
+		this.onReloadRoomsCol();
 	}
 
 	render(){
@@ -44,7 +48,7 @@ function mapStateToProps(state){
 }
 	ReserveContainer = connect(
 		mapStateToProps,
-		{onLoadRooms:loadRooms}
+		{onLoadRooms:loadRooms,onLoadRoomsCol:loadRoomscol}
 
 	)(ReserveContainer)
 
