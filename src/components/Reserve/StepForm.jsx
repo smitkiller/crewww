@@ -22,7 +22,7 @@ import {
   Toggle,
 } from 'redux-form-material-ui';
 import {addReserve} from '../../actions';
-
+import { connect } from 'react-redux';
 
 
 // validation functions
@@ -65,6 +65,8 @@ class StepForm extends React.Component {
       maxStart:date,
     })
   }
+
+
  handleDay=()=>(
           this.setState({types:"0"})
         )
@@ -104,7 +106,7 @@ class StepForm extends React.Component {
           disableTouchRipple={true}
           disableFocusRipple={true}
           primary={true}
-          onClick={this.handleNext}
+          onClick={stepIndex===1 ? this.props.handleClose :this.handleNext}
           style={{marginRight: 12}}
           type={stepIndex === 1 ? 'submit' : 'button'}
         />
@@ -234,15 +236,22 @@ class StepForm extends React.Component {
   }
 }
 
+
+
 StepForm = reduxForm(
   {
     form: 'StepForm',
-    initialValues: {
-      typeReserve: '0',
-      sex:'male',
-    },
     onSubmit:(values,dispatch)=> dispatch(addReserve(values))
 })(StepForm)
 
+StepForm = connect(
+  (state, ownProps) => ({
+    initialValues:{
+      typeReserve: '0',
+      sex:'male',
+      id_room:ownProps.id
+    }
+  })
+)(StepForm)
 
 export default StepForm;

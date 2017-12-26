@@ -1,29 +1,33 @@
 import React,{Component,PropTypes} from 'react';
 import {Header,ReserveList} from '../../components';
-import { loadReserve } from '../../actions';
+import { loadReserve,deleteReserve } from '../../actions';
 import {connect} from 'react-redux';
 
 class ReserveListContainer extends Component{
 
 		 static propTypes = {
-		    onLoadReserve: PropTypes.func.isRequired
+		    onLoadReserve: PropTypes.func.isRequired,
+		    onRemove:PropTypes.func
 		  }
 
-		  static need = [
-		    loadReserve
-		  ]
+		 // static need = [
+		 //   loadReserve
+		 // ]
 
 		  shouldComponentUpdate(nextProps) {
 		    return this.props.reserves !== nextProps.reserves;
 		  }
 
-		  onReloadReserve = () => {
-		    this.props.onLoadReserve()
+		  onReloadReserve = (id) => {
+		    this.props.onLoadReserve(id);
 		  }
 
+		  onRemove = (id,id_room) => {
+		    this.props.onDelete(id,id_room)
+		  }
 
 		  componentDidMount() {
-		    this.onReloadReserve()
+		    this.onReloadReserve(this.props.params.id);
 		  }
 
 
@@ -33,6 +37,8 @@ class ReserveListContainer extends Component{
 					<Header txtTitle="รายการการจองห้องพัก"/>
 					<ReserveList
 						reserves={this.props.reserves}
+						id={this.props.params.id}
+						onRemove={this.onRemove} 
 					/>
 				</div>
 			)
@@ -45,7 +51,8 @@ const mapStateToProps=(state)=>{
 	};
 }
 
-ReserveListContainer=connect(mapStateToProps,{onLoadReserve:loadReserve})
+ReserveListContainer=connect(mapStateToProps,
+	{onLoadReserve:loadReserve,onDelete:deleteReserve})
 (ReserveListContainer)
 
 export default ReserveListContainer;

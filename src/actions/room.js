@@ -9,7 +9,8 @@ import {
   LOAD_ROOMS_REQUEST,LOAD_ROOMS_SUCCESS,LOAD_ROOMS_FAILURE,
   LOAD_ROOMCOL_REQUEST,LOAD_ROOMCOL_SUCCESS,LOAD_ROOMCOL_FAILURE,
   CREATE_RESERVE_REQUEST,CREATE_RESERVE_SUCCESS,CREATE_RESERVE_FAILURE,
-  LOAD_RESERVE_REQUEST,LOAD_RESERVE_SUCCESS,LOAD_RESERVE_FAILURE
+  LOAD_RESERVE_REQUEST,LOAD_RESERVE_SUCCESS,LOAD_RESERVE_FAILURE,
+  DELETE_RESERVE_REQUEST,DELETE_RESERVE_SUCCESS,DELETE_RESERVE_FAILURE
 
 } from '../constants/actionTypes';
 import { addInfo,getInfo,getInfoById,delInfo,updateInfo,delTable } from '../Auth/auth';
@@ -335,12 +336,47 @@ return str.length < max ? pad("0" + str, max) : str;
  
 //  /////////////////////////  Reserve ////////////////////////////
 
+export function deleteReserve(id,id_room){
+  return dispatch=>{
+    dispatch(delReserveRequest());
+    delInfo('reserve',id)
+    .then(()=>{
+      dispatch(delReserveSuccess());
+      dispatch(loadReserve(id_room));
+    })
+      .catch((error)=>{
+        dispatch(delReserveFailure());
+      })
+  }
+} 
+
+function delReserveRequest(){
+  return{
+    type:DELETE_RESERVE_REQUEST
+  }
+}
+function delReserveSuccess(){
+  return{
+    type:DELETE_RESERVE_SUCCESS
+  }
+}
+function delReserveFailure(){
+  return{
+    type:DELETE_RESERVE_FAILURE
+  }
+}
+
 export function addReserve(values){
   return dispatch=>{
     dispatch(addReserveRequest());
     addInfo('reserve',values)
-    .then((snap)=>{
-      dispatch(addReserveSuccess());
+    .then(()=>{
+      dispatch(addReserveSuccess())
+      .then(function(){
+        dispatch(loadReserve(values.id_room))
+        //window.location.reload();
+        //browserHistory.push(`/reserve/list/${values.id_reserve}`);
+      })
     })
     .catch((error)=>{
       dispatch(addReserveFailure());
@@ -363,10 +399,10 @@ function addReserveFailure(){
   }
 }
 
-export function loadReserve(){
+export function loadReserve(id){
   return dispatch=>{
     dispatch(loadReserveRequest());
-    getInfo('reserve')
+    getInfoById('reserve','id_room',id)
     .then((snap)=>{
       dispatch(loadReserveSuccess(snap.val()));
     })

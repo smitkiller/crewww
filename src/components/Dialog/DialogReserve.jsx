@@ -21,6 +21,8 @@ class DialogReserve extends Component{
   }
 
   render(){
+    const {id}=this.props
+
     const actions= [
       <FlatButton
       icon={<Clear/>}
@@ -36,7 +38,11 @@ class DialogReserve extends Component{
       modal={true}
       open={this.state.open}
       autoScrollBodyContent={true}>
-      <StepForm/>
+
+        <StepForm
+            id={this.props.id}
+            handleClose={this.handleClose}
+        />
       </Dialog>
       </div>
     )

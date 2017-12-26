@@ -36,8 +36,8 @@ export function getInfo(table){
   return database.ref(`/${table}`).once("value")
 }
 
-export function getInfoById(table,id){
-  return database.child(`/${table}`).child(`/${id}`)
+export function getInfoById(table,id,value){
+  return database.ref(`/${table}`).orderByChild(id).equalTo(value).once("value")
 }
 
 export function delInfo(table,id){

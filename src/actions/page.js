@@ -27,7 +27,7 @@ export function loadPages(){
 export function loadPage(id){
   return dispatch=>{
     dispatch(loadPageRequest());
-    getInfoById('pages',id)
+    getInfoById('pages','id',id)
     .then((snap)=>{
       dispatch(loadPageSuccess(snap.val()))
     })

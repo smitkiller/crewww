@@ -13,7 +13,7 @@ import DialogReserve from '../Dialog/DialogReserve';
 import _ from 'lodash';
 import Moment from 'moment';
 import { extendMoment } from 'moment-range';
-
+import ReserveDelete from '../Dialog/ReserveDel';
  
 const moment = extendMoment(Moment);
 
@@ -49,7 +49,8 @@ class ReserveList extends Component{
   };
 
   render() {
-    const {reserves} = this.props;
+    const {reserves,id,onRemove} = this.props;
+
     return (
     	<div style={{marginTop:20}}>
       <Tabs 
@@ -74,7 +75,7 @@ class ReserveList extends Component{
              <TableHeaderColumn>วันที่</TableHeaderColumn>
               <TableHeaderColumn>ชื่อ-นามสกุล</TableHeaderColumn>
               <TableHeaderColumn>เบอร์ติดต่อ</TableHeaderColumn>
-              <TableHeaderColumn><DialogReserve/></TableHeaderColumn>
+              <TableHeaderColumn><DialogReserve id={id}/></TableHeaderColumn>
             </TableRow>
             </TableHeader>
             <TableBody
@@ -84,9 +85,13 @@ class ReserveList extends Component{
                   <TableRow key={key}>
                     <TableRowColumn>{moment(data.dateCheckIn).format('DD-MM-YYYY')}</TableRowColumn>
                     <TableRowColumn>{moment(data.dateCheckOut).format('DD-MM-YYYY')}</TableRowColumn>
-                    <TableRowColumn></TableRowColumn>
+                    <TableRowColumn>{data.tel}</TableRowColumn>
                     <TableRowColumn>
-                      <FlatButton title="ยกเลิก" icon={<DeleteIcon/>} />
+                        <ReserveDelete
+                          id={key}
+                          id_room={data.id_room}
+                          onRemove={onRemove}
+                        />
                     </TableRowColumn>
                   </TableRow>
                   ))
@@ -116,7 +121,9 @@ class ReserveList extends Component{
                   Aliquam dui mauris, mattis quis lacus id, pellentesque lobortis odio.
                 </CardText>
                 <CardActions>
-                  <DialogReserve/>
+                  <DialogReserve
+                    id={id}
+                  />
                 </CardActions>
               </Card>
           </div>
