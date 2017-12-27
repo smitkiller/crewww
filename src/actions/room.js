@@ -366,7 +366,7 @@ function delReserveFailure(){
   }
 }
 
-export function addReserve(values){
+export function addReserve(values,handleClose){
   return dispatch=>{
     dispatch(addReserveRequest());
     addInfo('reserve',values)

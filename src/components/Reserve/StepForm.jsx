@@ -24,14 +24,13 @@ import {
 import {addReserve} from '../../actions';
 import { connect } from 'react-redux';
 
-
 // validation functions
-const required = value => (value == null ? 'Required' : undefined);
-const email = value =>
-  (value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)
-    ? 'Invalid email'
-    : undefined);
-const numValidate = (value) =>(value && isNaN(Number(value))?'กรุณากรอกตัวเลข':undefined)
+//const required = value => (value == null ? this.setState({touch:false}) : this.setState({touch:true}));
+//const email = value =>
+ // (value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)
+ //   ? 'Invalid email'
+ //   : undefined);
+//const numValidate = (value) =>(value && isNaN(Number(value))?'กรุณากรอกตัวเลข':undefined)
 
 class StepForm extends React.Component {
   constructor(props){
@@ -51,6 +50,7 @@ class StepForm extends React.Component {
       maxDate: maxDate,
       maxStart:maxDate,
       minEnd:minDate,
+      touch:false
     };
   }
  
@@ -66,6 +66,25 @@ class StepForm extends React.Component {
     })
   }
 
+ numValidate = (value) =>{
+    if(value&& isNaN(Number(value))){
+      this.setState({touch:false})
+      return 'กรุณากรอกตัวเลข'
+    }else{
+      this.setState({touch:true})
+    }
+ }
+
+ required = value =>{
+   
+  if(value == null)
+    {
+      this.setState({touch:false})
+     return 'required'
+  }else{
+    this.setState({touch:true})
+  }
+}
 
  handleDay=()=>(
           this.setState({types:"0"})
@@ -89,6 +108,7 @@ class StepForm extends React.Component {
     }
   };
 
+
   renderStepActions(step) {
     const {stepIndex} = this.state;
     return (
@@ -106,7 +126,7 @@ class StepForm extends React.Component {
           disableTouchRipple={true}
           disableFocusRipple={true}
           primary={true}
-          onClick={stepIndex===1 ? this.props.handleClose :this.handleNext}
+          onClick={stepIndex===1 && this.state.touch===true ? this.props.handleClose :this.handleNext}
           style={{marginRight: 12}}
           type={stepIndex === 1 ? 'submit' : 'button'}
         />
@@ -154,7 +174,7 @@ class StepForm extends React.Component {
                         format={null}
                         floatingLabelText="วันที่เข้าพัก"
                         hintText="วันที่เข้าพัก"
-                        validate={required}
+                        validate={this.required}
                         minDate={this.state.minDate}
                         maxDate={this.state.maxStart}
                         onChange={this.handleDayStart}
@@ -168,7 +188,7 @@ class StepForm extends React.Component {
                         floatingLabelText="วันที่ออก"
                         format={null}
                         hintText="วันที่ออก"
-                        validate={required}
+                        validate={this.required}
                         minDate={this.state.minEnd}
                         maxDate={this.state.maxDate}
                         onChange={this.handleDayEnd}
@@ -183,7 +203,7 @@ class StepForm extends React.Component {
                     component={SelectField}
                     hintText="ระยะเวลา"
                     floatingLabelText="ระยะเวลา"
-                    validate={required}
+                    validate={this.required}
                   >
                     <MenuItem value="1" primaryText="1 เดือน" />
                     <MenuItem value="2" primaryText="2 เดือน" />
@@ -198,7 +218,7 @@ class StepForm extends React.Component {
                       component={TextField}
                       hintText="ชื่อ"
                       floatingLabelText="ชื่อ"
-                      validate={required}
+                      validate={this.required}
                        />
                 </div>
                 <div>
@@ -207,7 +227,7 @@ class StepForm extends React.Component {
                       component={TextField}
                       hintText="นามสกุล"
                       floatingLabelText="นามสกุล"
-                      validate={required}
+                      validate={this.required}
                        />
                 </div>
                 <div>
@@ -223,7 +243,7 @@ class StepForm extends React.Component {
                       component={TextField}
                       hintText="เบอร์โทร"
                       floatingLabelText="เบอร์โทร"
-                      validate={[required,numValidate]}
+                      validate={[this.required,this.numValidate]}
                        />
                 </div>
               {this.renderStepActions(1)}
