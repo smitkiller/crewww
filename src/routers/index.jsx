@@ -10,7 +10,7 @@ class RoutesIndex extends Component {
   const {history} = this.props
     return (
       <div>
-  <Routes
+        <Routes
           history={history}
          />
        

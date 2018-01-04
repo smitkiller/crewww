@@ -6,7 +6,7 @@ import AddIcon from 'material-ui/svg-icons/image/add-to-photos'
 import EditIcon from 'material-ui/svg-icons/image/edit'
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table'
 import DialogDelete from '../Dialog/DialogDelete'
-
+import _ from 'lodash';
 
 const style = {
   margin: 12,
@@ -21,43 +21,41 @@ const Users = ({
     <FlatButton
       label="Reload Users"
     />
-    <FlatButton icon={<AddIcon/>} style={style} />
+    <Link to={{ pathname: '/users/new' }}><FlatButton icon={<AddIcon/>} style={style} /></Link>
     <hr />
     <Table>
      <TableHeader>
        <TableRow>
-       <TableHeaderColumn>ID</TableHeaderColumn>
-        <TableHeaderColumn>Title</TableHeaderColumn>
-        <TableHeaderColumn></TableHeaderColumn>
+       <TableHeaderColumn>ชื่อ</TableHeaderColumn>
+        <TableHeaderColumn>สกุล</TableHeaderColumn>
+        <TableHeaderColumn>อีเมล</TableHeaderColumn>
         <TableHeaderColumn></TableHeaderColumn>
          <TableHeaderColumn></TableHeaderColumn>
       </TableRow>
       </TableHeader>
       <TableBody>
-
-            <TableRow >
-              <TableRowColumn></TableRowColumn>
-              <TableRowColumn></TableRowColumn>
+      {
+          _.map(users,(user,key)=>(
+            <TableRow key={key}>
+              <TableRowColumn>{user.firstname}</TableRowColumn>
+              <TableRowColumn>{user.lastname}</TableRowColumn>
+              <TableRowColumn>{user.email}</TableRowColumn>
               <TableRowColumn>
-                <FlatButton label="Show" secondary={true} />
+                <Link to={{ pathname: `/users/${key}` }}><FlatButton label="Show" secondary={true} /></Link>
               </TableRowColumn>
               <TableRowColumn>
                 <FlatButton icon={<EditIcon/>} style={style} />
               </TableRowColumn>
-              <TableRowColumn>
-
-
-              </TableRowColumn>
             </TableRow>
-
+            ))
+      }
       </TableBody>
     </Table>
   </div>
 )
 
 Users.propTypes = {
-  users: PropTypes.array.isRequired,
-  onReloadUsers: PropTypes.func.isRequired,
+  onReloadUsers: PropTypes.func,
   onRemove:PropTypes.func
 }
 

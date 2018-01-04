@@ -7,17 +7,14 @@ import { firebaseAuth } from '../constants/configAuth'
 export default function(ComposedComponent) {
   class CheckAuthed extends Component {
 
-       state = {
-          authed: false,
-          loading: true,
-        }
       componentDidMount () {
             this.removeListener = firebaseAuth().onAuthStateChanged((user) => {
               if (!user) {
                   browserHistory.push('/');
               }
-            })
+            })  
       }
+
 
     render() {
       return (

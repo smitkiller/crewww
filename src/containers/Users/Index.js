@@ -1,18 +1,15 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { loadUsers,deleteUser } from '../../actions/user';
+import { loadUsers,deleteUser } from '../../actions';
 import {Users,Header} from '../../components';
 
 class UsersContainer extends Component {
   static propTypes = {
-    users: PropTypes.array.isRequired,
-    onLoadUsers: PropTypes.func.isRequired,
+    onLoadUsers: PropTypes.func,
     onDelete:PropTypes.func
   }
 
-  static need = [
-    loadUsers
-  ]
+
 
   shouldComponentUpdate(nextProps) {
     return this.props.users !== nextProps.users;
@@ -27,26 +24,30 @@ class UsersContainer extends Component {
   }
 
   componentDidMount() {
-   // this.onReloadUsers()
+    this.onReloadUsers()
   }
 
   render() {
     return (
-      <div><div>
+      <div>
           <Header txtTitle='Users'/>
-          <Users />
-     
+          {
+            !this.props.users?<div>Loading ...</div>
+          :
+          <Users
+              users={this.props.users}
+           />
+          }
      </div>
-      </div>
     )
   }
 }
 
-/*
-export default connect(
+
+UsersContainer=connect(
   (state) => ({ users: state.users }),
   { onLoadUsers: loadUsers,onDelete:deleteUser }
 )(UsersContainer)
-*/
+
 
 export default UsersContainer;

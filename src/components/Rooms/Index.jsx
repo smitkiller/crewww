@@ -8,6 +8,7 @@ import Paper from 'material-ui/Paper';
 import MenuItem from 'material-ui/MenuItem';
 import Subheader from 'material-ui/Subheader';
 import {List, ListItem} from 'material-ui/List';
+import { Grid, Row, Col } from 'react-flexbox-grid'; 
 
 const styles = {
   position_link:{margin: '2%'},
@@ -33,7 +34,6 @@ const styles = {
   }
 };
 
-
 const state = {
     showCheckboxes: false
   };
@@ -47,23 +47,31 @@ const Roomscol = ({roomscol}) => (
      <FlatButton icon={<AddIcon/>} style={styles.position_link} /></Link>
      <div style={styles.stext}>ไม่มีข้อมูล</div>
      </div>
-     :null
+     :console.log('=======>',roomscol) 
   }
       {
-        _.map(roomscol,(value,key)=>(                 
+        _.map(roomscol,(value,key)=>(  
+
           <div style={styles.content}>
             <Subheader> 
                 <span>จำนวนห้องพัก</span>
-                <span style={styles.colRight}>{value.totalRooms}</span>
+                <span style={styles.colRight}>{value.totalRooms} ห้อง</span>
              </Subheader>
 
               <Subheader>
               <span> ชั้นทั้งหมด </span>
-              <span style={styles.colRight}> {value.totalLevel} </span>
+              <span style={styles.colRight}> {value.totalLevel} ชั้น</span>
               </Subheader>
-              <Subheader>ชั้นที่ 1</Subheader>
+            {_.map(value.levelRooms,(val,key)=>
+              <Subheader> 
+                <span>ชั้นที่ {key+1}</span>
+                <span style={styles.colRight}>จำนวน {val} ห้อง</span>
+              </Subheader>                  
+             )}
+
               <Link to={{ pathname: `/roomcol/edit/${key}` }}>
               <FlatButton icon={<EditIcon/>} style={styles.position_link} /></Link>
+           
           </div>             
         ))
       }

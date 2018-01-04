@@ -14,12 +14,15 @@ import {
         Login,
         Reserve,
         ReserveList,
-        Users,
         RoomsCol,
         NewRooms,
         EditRoomscol,
         CheckAuthed,
-        Home } from '../containers';
+        Home,
+        Users,
+        NewUser,
+        ShowUser,
+        EditUser } from '../containers';
 
 
 class Routes extends Component {
@@ -36,9 +39,16 @@ class Routes extends Component {
         <Route>
               <Route path="app" component={CheckAuthed(App)} />
               
-              <Route path="users" component={CheckAuthed(Users)}/>
+            <Route path='users' >
+                <IndexRoute component={CheckAuthed(Users)} />
+                <Route path='new'component={CheckAuthed(NewUser)} />
+                <Route path=':id'component={CheckAuthed(ShowUser)} />
+               <Route path='edit'>
+                      <Route path=':id' component={CheckAuthed(EditUser)} />
+                </Route>
+            </Route> 
 
-              <Route path="roomcol" >
+            <Route path="roomcol" >
                   <IndexRoute component={CheckAuthed(RoomsCol)} />
                   <Route path="new" component={CheckAuthed(NewRooms)}/>
                   <Route path="edit" >

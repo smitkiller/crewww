@@ -36,8 +36,8 @@ class ReserveContainer extends Component {
 				  roomscol={this.props.roomscol}/>
 				}
 			</div>
-			)
 
+		)
 	}
 }
 function mapStateToProps(state){

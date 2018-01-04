@@ -107,8 +107,8 @@ function loadRoomsFailure(){
 function createRooms(values){
   return dispatch=>{
     dispatch(createRoomsRequest());
-    addInfo('rooms',values)
-    .then((snap)=>{
+    addInfo('rooms',roomsNum(values))
+    .then(()=>{
       dispatch(createRoomsSuccess());
     })
     .catch((error)=>{
@@ -132,11 +132,11 @@ function createRoomsFailure(){
   }
 }
 
-export function cleanRooms(){
+function cleanRooms(){
   return dispatch=>{
     dispatch(cleanRoomsRequest());
     delTable('rooms')
-    .then((snap)=>{
+    .then(()=>{
       dispatch(cleanRoomsSuccess());
     })
     .catch((error)=>{
@@ -167,7 +167,7 @@ export function cleanRoomsCol(){
   return dispatch=>{
     dispatch(cleanRoomsColRequest());
     delTable('roomscol')
-    .then((snap)=>{
+    .then(()=>{
       dispatch(cleanRoomsColSuccess());
     })
     .catch((error)=>{
@@ -255,15 +255,9 @@ export const updateRoomscol=(values,level)=>(
 
 const manageRooms = (data) =>(
   (dispatch)=>{
-      dispatch(cleanRooms())
-      .then(function(result){
-          if(result.payload.status===true){
-            dispatch(createRooms(data));
-          }        
-        })
-       .catch((error)=>{
-        console.log('error',error);
-      })
+      dispatch(cleanRooms());
+      dispatch(createRooms(data));
+
 
     }
     
@@ -271,15 +265,9 @@ const manageRooms = (data) =>(
 
 const manageRoomsCol = (data) =>(
     (dispatch)=>{
-      dispatch(cleanRoomsCol())
-      .then(function(result){
-          if(result.payload.status===true){
-            dispatch(createRoomscol(data));           
-            }        
-      })
-      .catch((error)=>{
-            console.log('error',error)
-      })
+      dispatch(cleanRoomsCol());
+      dispatch(createRoomscol(data));                  
+
     }
   )
 
@@ -301,8 +289,8 @@ export const addRomms = (values) =>(
           }
 
     //  roomsNum(data)
-   dispatch(manageRooms(data))
-   dispatch(manageRoomsCol(data))
+   dispatch(manageRooms(data));
+   dispatch(manageRoomsCol(data));
    browserHistory.push('/roomcol')
   }
 

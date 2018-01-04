@@ -4,6 +4,8 @@ import _ from 'lodash';
 import RaisedButton from 'material-ui/RaisedButton';
 import ActionAccount from 'material-ui/svg-icons/action/account-box';
 import { Link} from 'react-router';
+import Slider from 'material-ui/Slider';
+import Divider from 'material-ui/Divider';
 
 const styles = {
 	mid:{
@@ -54,6 +56,26 @@ const styles = {
 	},
 	rm_style:{
 		backgroundColor:'#3F51B5'
+	},
+	hr_style:{
+		'borderTop': '2px dotted #8c8b8b'
+	//border-top: 1px solid #8c8b8b;
+
+	//border-top: 3px double #8c8b8b;
+
+	//border-top: 1px dashed #8c8b8b;
+
+	//border-top: 1px dotted #8c8b8b;
+
+	//background-color: #fff;
+	//border-top: 2px dashed #8c8b8b;
+
+	//background-color: #fff;
+	//border-top: 2px dotted #8c8b8b;
+
+	//border-top: 1px solid #8c8b8b;
+	//border-bottom: 1px solid #fff;
+
 	}
 }
 
@@ -62,13 +84,12 @@ const styles = {
 class Reserve extends Component{
 
 	render(){
-
 		const {rooms,roomscol} = this.props
-		
+		var percen=95;
 		var info_data = [];
 		var total=[];
 		var uid;
-		var num_rooms=[];
+		var num_rooms;
 		var status_room;
 		var display = [];
 		_.map(roomscol,(roomcol)=>
@@ -77,15 +98,15 @@ class Reserve extends Component{
 				rm_total:roomcol.totalRooms,
 				rm_rows_col:roomcol.levelRooms
 			});
-		_.map(rooms,(val)=>num_rooms=val);
-		for(var l=0;l<num_rooms.length;l++){
-			num_rooms[l]={
-				id:num_rooms[l].id,
-				level:num_rooms[l].level,
-				user_id:num_rooms[l].user_id
-			}
-		}
 
+		_.map(rooms,(val)=>num_rooms=val);
+			for(var l=0;l<num_rooms.length;l++){
+					num_rooms[l]={
+						id:num_rooms[l].id,
+						level:num_rooms[l].level,
+						user_id:num_rooms[l].user_id
+					}
+				}
 	/*	for(var a=0;a<total.level;a++){
 
 					test.push([{'dd':a}:[]]);
@@ -101,10 +122,12 @@ class Reserve extends Component{
 				info_data[i].push([]);
 			}
 			for(var j=0;j<total.rm_total;j++){
-				if(num_rooms[j].level===(i+1)){
-					num_rooms[j].user_id?uid=num_rooms[j].user_id:uid='';
-					info_data[i].push({rid:num_rooms[j].id,uid:uid});
-				}	
+				if(typeof num_rooms[j].level !== undefined){
+					if(num_rooms[j].level===(i+1)){
+						num_rooms[j].user_id?uid=num_rooms[j].user_id:uid='';
+						info_data[i].push({rid:num_rooms[j].id,uid:uid});
+					}	
+				}
 			}
 			
 		}
@@ -113,22 +136,25 @@ class Reserve extends Component{
 		})
 
 	for(var x=0;x<info_data.length;x++){
-		display.push(<div key={x}></div>)
+		display.push( <hr style={styles.hr_style} key={x} />)
 		for(var y=0;y<info_data[x].length;y++){
+			var height_val=percen/info_data[x].length;
+			var val_box=height_val.toString().concat('%');
+			//console.log('xxxxxxxx====>',screen.width)
 			if(info_data[x][y].uid===''){
 		display.push(
-			<Link to={{ pathname: `/reserve/list/${info_data[x][y].rid}` }}>			
-				<RaisedButton 
-					
+			<Link
+			 key={info_data[x][y].rid}
+			 to={{ pathname: `/reserve/list/${info_data[x][y].rid}` }}>			
+				<RaisedButton 					
 					label={info_data[x][y].rid} 
 					backgroundColor="#E91E63" 
-					style={styles.raised_button} />
+					style={{margin: 5,width:val_box}} />
 			</Link>
 				)
 			}else{
 				display.push(
 					<RaisedButton 
-					
 					label={info_data[x][y].rid} 
 					backgroundColor="#E91E63" 
 					style={styles.raised_button} 
@@ -147,7 +173,7 @@ class Reserve extends Component{
 			{
 				display
 			}
-			   	</Paper>
+			</Paper>
 			</div>                        
 											
 			)

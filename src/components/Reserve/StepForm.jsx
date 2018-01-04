@@ -25,14 +25,14 @@ import {addReserve} from '../../actions';
 import { connect } from 'react-redux';
 
 // validation functions
-//const required = value => (value == null ? this.setState({touch:false}) : this.setState({touch:true}));
+//const required = value => (value == null ?'required' : undefined);
 //const email = value =>
  // (value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)
  //   ? 'Invalid email'
  //   : undefined);
 //const numValidate = (value) =>(value && isNaN(Number(value))?'กรุณากรอกตัวเลข':undefined)
 
-class StepForm extends React.Component {
+class StepForm extends Component {
   constructor(props){
     super(props);
 

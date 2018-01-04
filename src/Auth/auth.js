@@ -1,10 +1,30 @@
 import { ref, firebaseAuth,database } from '../constants/configAuth'
 
-export function auth (email, pw) {
-  return firebaseAuth().createUserWithEmailAndPassword(email, pw)
-    .then(saveUser)
+export function auth(user){
+   return firebaseAuth().createUserWithEmailAndPassword(user.email,user.password)
+   .then((data)=>{
+        saveUser(data,user);
+   })
 }
 
+export function saveUser(data,user){
+const val={
+       'email': data.email,
+      'uid': data.uid,
+      'firstname':user.firstname,
+      'lastname':user.lastname,
+      'tel':user.tel,
+      'role':{
+        'user_read':user.user_read?true:false,
+        'user_write':user.user_write?true:false,
+        'room_read':user.room_read?true:false,
+        'room_write':user.room_write?true:false
+      }
+}
+
+  return ref.child(`users`).push()
+    .set(val)
+}
 
 export function logout () {
   return firebaseAuth().signOut()
@@ -18,14 +38,6 @@ export function resetPassword (email) {
   return firebaseAuth().sendPasswordResetEmail(email)
 }
 
-export function saveUser (user) {
-  return ref.child(`users/${user.uid}/info`)
-    .set({
-      email: user.email,
-      uid: user.uid
-    })
-    .then(() => user)
-}
 
 export function addInfo(table,values){
   return ref.child(table).push()
