@@ -1,6 +1,6 @@
 import React,{Component,PropTypes} from 'react';
 import { Field } from 'redux-form';
-import { FlatButton } from 'material-ui';
+import { FlatButton,RadioButton } from 'material-ui';
 import {
   AutoComplete,
   Checkbox,
@@ -80,48 +80,30 @@ class NewUser extends Component{
                        />
                 </div>
                 <p>จัดการข้อมูลผู้ใช้ระบบ (Admin)</p>
-                <div>
-                  <Grid fluid>
-                    <Row>
-                    <Col xs={6} md={3} >
-                    <Field
-                      name="user_read"
-                      component={Toggle}
-                      label="อ่าน"
-                      labelPosition="right"
-                    />
-
-                    <Field
-                      name="user_write"
-                      component={Toggle}
-                      label="เขียน"
-                      labelPosition="right"
-                    />
-                         </Col>
+                 <Grid fluid>
+                  <Row>
+                    <Col xs={6} md={6} >
+                      <Field name="admin_page" component={RadioButtonGroup}>
+                        <RadioButton value="0" label="ไม่มีสิทธิ์"  />
+                        <RadioButton value="1" label="ดูได้อย่างเดียว" />
+                        <RadioButton value="2" label="ดู/แก้ไข/ลบ ได้" />
+                      </Field>
+                      </Col>
                     </Row>
                   </Grid>
-                </div>
+                
                  <p>จัดการห้องพัก</p>
-                <div>
-                   <Grid fluid>
-                    <Row>
-                    <Col xs={6} md={3} >
-                    <Field
-                      name="room_read"
-                      component={Toggle}
-                      label="อ่าน"
-                      labelPosition="right"
-                    />
-                    <Field
-                      name="room_write"
-                      component={Toggle}
-                      label="เขียน"
-                      labelPosition="right"
-                    />
+                <Grid fluid>
+                  <Row>
+                    <Col xs={6} md={6} >
+                      <Field name="room_page" component={RadioButtonGroup}>
+                        <RadioButton value="0" label="ไม่มีสิทธิ์" />
+                        <RadioButton value="1" label="ดูได้อย่างเดียว" />
+                        <RadioButton value="2" label="ดู/แก้ไข/ลบ ได้" />
+                      </Field>
                       </Col>
-                      </Row>
-                    </Grid>
-                </div>
+                    </Row>
+                  </Grid>
           <FlatButton type='submit' label="Submit" />
         </form>
       </div>

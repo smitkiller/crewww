@@ -9,16 +9,14 @@ export function auth(user){
 
 export function saveUser(data,user){
 const val={
-       'email': data.email,
+      'email': data.email,
       'uid': data.uid,
       'firstname':user.firstname,
       'lastname':user.lastname,
       'tel':user.tel,
       'role':{
-        'user_read':user.user_read?true:false,
-        'user_write':user.user_write?true:false,
-        'room_read':user.room_read?true:false,
-        'room_write':user.room_write?true:false
+        'admin_page':user.admin_page,
+        'room_page':user.room_page
       }
 }
 
@@ -52,12 +50,29 @@ export function getInfoById(table,id,value){
   return database.ref(`/${table}`).orderByChild(id).equalTo(value).once("value")
 }
 
+export function getInfoByUid(table,email,uid){
+  return database.ref(`/${table}`)
+  .orderByChild('uid')
+  .equalTo(uid)
+  .once("value")
+}
+
 export function delInfo(table,id){
   return database.ref(`/${table}`).child(id).remove()
 }
 
 export function delTable(table){
   return database.ref(`/${table}`).remove()
+}
+
+export function delUser(id){
+  return 
+  var user = firebaseAuth.currentUser;
+    user.delete().then(function() {
+        database.ref("users/".concat(id, "/")).remove();
+    }).catch(function(error) {
+      // An error happened.
+    });
 }
 
 export function updateInfo(table,values){

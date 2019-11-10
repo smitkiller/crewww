@@ -11,20 +11,20 @@ import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColu
 import DialogDelete from '../Dialog/DialogDelete';
 import _ from 'lodash';
 
-const style = {
-  margin: 12,
-};
+
 const state = {
     showCheckboxes: false
   };
 const Pages = ({pages,onReloadPages,onRemove
 }) => (
   <div>
-    <FlatButton
-      onClick={() => onReloadPages()}
-      label="Reload Pages"
-    />
-    <Link to={{ pathname: '/pages/new' }}><FlatButton icon={<AddIcon/>} style={style} /></Link>
+    <div className="btn_new">
+      <FlatButton
+        onClick={() => onReloadPages()}
+        label="Reload Pages"
+      />
+      <Link to={{ pathname: '/pages/new' }}><FlatButton icon={<AddIcon/>} /></Link>
+    </div>
     <hr />
     <Table>
      <TableHeader
@@ -51,7 +51,7 @@ const Pages = ({pages,onReloadPages,onRemove
                 <Link to={{ pathname: `/pages/${key}` }}><FlatButton label="Show" secondary={true} /></Link>
               </TableRowColumn>
               <TableRowColumn>
-                <Link to={{ pathname: `/pages/edit/${key}` }}><FlatButton icon={<EditIcon/>} style={style} /></Link>
+                <Link to={{ pathname: `/pages/edit/${key}` }}><FlatButton icon={<EditIcon/>}  /></Link>
               </TableRowColumn>
               <TableRowColumn>
               <DialogDelete

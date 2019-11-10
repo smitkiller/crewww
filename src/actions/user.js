@@ -20,11 +20,55 @@ import {
 
   UPDATE_USER_REQUEST,
   UPDATE_USER_SUCCESS,
-  UPDATE_USER_FAILURE
+  UPDATE_USER_FAILURE,
+
+  RESET_PASSWORD_REQUEST,
+  RESET_PASSWORD_SUCCESS,
+  RESET_PASSWORD_FAILURE
 
 } from '../constants/actionTypes'
-import { addInfo,getInfo,getInfoById,delInfo,updateInfo,delTable,saveUser,auth } from '../Auth/auth';
+import { addInfo,
+  getInfo,
+  getInfoById,
+  getInfoByUid,
+  delInfo,
+  updateInfo,
+  delTable,
+  saveUser,
+  auth,
+  resetPassword,
+  delUser } from '../Auth/auth';
 import { browserHistory } from 'react-router';
+
+export function loadUser(email,uid){
+  return dispatch=>{
+    dispatch(loadUserRequest());
+    getInfoByUid('users',email,uid)
+    .then((snap)=>{
+      dispatch(loadUserSuccess(snap.val()))
+    })
+      .catch((error)=>{
+        dispatch(loadUserFailure());
+      })
+  }
+} 
+
+function loadUserRequest(){
+  return{
+    type:LOAD_USER_REQUEST
+  }
+}
+function loadUserSuccess(data){
+  return{
+    type:LOAD_USER_SUCCESS,
+    payload:data
+  }
+}
+function loadUserFailure(){
+  return{
+    type:LOAD_USER_FAILURE
+  }
+}
 
 export function loadUsers(){
   return dispatch=>{
@@ -90,5 +134,61 @@ function createUserSuccess(){
 function createUserFailure(){
   return{
     type:CREATE_USER_FAILURE
+  }
+}
+
+export function resetPass(values){
+  return dispatch=>{
+    dispatch(resetPassRequest());
+    resetPassword(values.email)
+    .then((data)=>{
+        console.log('=-===========>',data.val())
+    })
+
+  }
+}
+
+function resetPassRequest(){
+  return{
+    type:RESET_PASSWORD_REQUEST
+  }
+}
+function resetPassSuccess(){
+  return{
+    type:RESET_PASSWORD_SUCCESS
+  }
+}
+function resetPassFailure(){
+  return{
+    type:RESET_PASSWORD_FAILURE
+  }
+}
+
+export function deleteUser(id){
+  return dispatch=>{
+      dispatch(deleteUserRequest());
+      delUser(id)
+      .then(()=>{
+        dispatch(deleteUserSuccess());
+      })
+      .catch((error)=>{
+        dispatch(deleteUserFailure());
+      })
+  }
+}
+
+function deleteUserRequest(){
+  return{
+    type:DELETE_USER_REQUEST
+  }
+}
+function deleteUserSuccess(){
+  return{
+    type:DELETE_USER_SUCCESS
+  }
+}
+function deleteUserFailure(){
+  return{
+    type:DELETE_USER_FAILURE
   }
 }

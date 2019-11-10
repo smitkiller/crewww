@@ -2,13 +2,6 @@ import React, { PropTypes,Component } from 'react'
 import { FlatButton, TextField } from 'material-ui'
 import { Field } from 'redux-form'
 
-const styleLogin = {
-   float       : 'none', 
-   width       : '200px',
-   marginLeft  : 'auto',
-   marginRight : 'auto',
-   color       : 'red'
-};
 
 const renderTextField = props => (
   <div>
@@ -39,7 +32,7 @@ class Login extends Component{
     const {login,handleSubmit}=this.props
 
     return(
-        <div style={styleLogin}>{this.state.errorLogin}
+        <div className="style_login">{this.state.errorLogin}
 
     <form
       onSubmit={handleSubmit}

@@ -1,7 +1,6 @@
 import React,{Component} from 'react';
 import { Router,Route,IndexRoute } from 'react-router';
 import { connect } from 'react-redux';
-import { browserHistory } from 'react-router';
 import {
         App,
         About,
@@ -22,7 +21,8 @@ import {
         Users,
         NewUser,
         ShowUser,
-        EditUser } from '../containers';
+        EditUser,
+        ResetPass } from '../containers';
 
 
 class Routes extends Component {
@@ -45,6 +45,9 @@ class Routes extends Component {
                 <Route path=':id'component={CheckAuthed(ShowUser)} />
                <Route path='edit'>
                       <Route path=':id' component={CheckAuthed(EditUser)} />
+                </Route>              
+                <Route path='reset'>
+                      <Route path=':id' component={CheckAuthed(ResetPass)} />
                 </Route>
             </Route> 
 

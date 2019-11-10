@@ -14,7 +14,9 @@ export default (state = initialState, action) => {
     case LOGIN_USER_SUCCESS:
       return Object.assign({}, state, {
           'authed': true,
-          'userName':action.name,
+          'userName':action.user.firstname,
+          'admin_page':action.user.role.admin_page,
+          'room_page':action.user.role.room_page,
           'statusText': null
       });
       break;
@@ -22,6 +24,8 @@ export default (state = initialState, action) => {
       return Object.assign({}, state, {
           'authed': false,
           'userName': null,
+          'admin_page':null,
+          'room_page':null,
           'statusText': 'Invalid username/password.'
       });
       break;
@@ -29,6 +33,8 @@ export default (state = initialState, action) => {
          return Object.assign({}, state, {
           'authed': false,
           'userName': null,
+          'admin_page':null,
+          'room_page':null,
           'statusText': null
       });
          break;

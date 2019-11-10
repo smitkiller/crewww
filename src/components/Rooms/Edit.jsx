@@ -1,7 +1,7 @@
 import React, {Component, PropTypes } from 'react';
 import { Field } from 'redux-form';
 import { connect } from 'react-redux';
-import { Dialog,FlatButton, TextField } from 'material-ui';
+import { FlatButton, TextField } from 'material-ui';
 import EditIcon from 'material-ui/svg-icons/image/edit';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';

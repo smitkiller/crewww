@@ -13,12 +13,6 @@ const renderTextField = props => (
     {...props.input}/></div>
 )
 
-const middle = {
-   float       : 'none', 
-   width       : '200px',
-   marginLeft  : 'auto',
-   marginRight : 'auto'
-};
 
 const PageForm = ({
   fields,
@@ -26,7 +20,7 @@ const PageForm = ({
 }) => {
 
   return (
-    <div className="App" style={middle}>
+    <div className="middle">
     <form
       onSubmit={handleSubmit}
       className='form'>

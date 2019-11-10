@@ -9,11 +9,11 @@ import themeSite from '../../img/old.jpg';
 import logo from '../../img/logoCrewww.png';
 import {Tabs, Tab} from 'material-ui/Tabs';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
-import DialogReserve from '../Dialog/DialogReserve';
+import {DialogReserve,ReserveDelete} from '../../components';
 import _ from 'lodash';
 import Moment from 'moment';
 import { extendMoment } from 'moment-range';
-import ReserveDelete from '../Dialog/ReserveDel';
+
  
 const moment = extendMoment(Moment);
 

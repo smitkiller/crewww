@@ -59,22 +59,7 @@ const styles = {
 	},
 	hr_style:{
 		'borderTop': '2px dotted #8c8b8b'
-	//border-top: 1px solid #8c8b8b;
-
-	//border-top: 3px double #8c8b8b;
-
-	//border-top: 1px dashed #8c8b8b;
-
-	//border-top: 1px dotted #8c8b8b;
-
-	//background-color: #fff;
-	//border-top: 2px dashed #8c8b8b;
-
-	//background-color: #fff;
-	//border-top: 2px dotted #8c8b8b;
-
-	//border-top: 1px solid #8c8b8b;
-	//border-bottom: 1px solid #fff;
+	
 
 	}
 }
@@ -100,13 +85,15 @@ class Reserve extends Component{
 			});
 
 		_.map(rooms,(val)=>num_rooms=val);
+		if(num_rooms){
 			for(var l=0;l<num_rooms.length;l++){
 					num_rooms[l]={
 						id:num_rooms[l].id,
 						level:num_rooms[l].level,
-						user_id:num_rooms[l].user_id
+						tenant_id:num_rooms[l].tenant_id
 					}
 				}
+		}
 	/*	for(var a=0;a<total.level;a++){
 
 					test.push([{'dd':a}:[]]);
@@ -117,26 +104,29 @@ class Reserve extends Component{
 
 		}
 	
-		for(var i=0;i<total.rm_level;i++){
+		for(var i=0;i<total.rm_level;i++){ // level
 			for(var c=0;c<total.rm_total[i];c++){
 				info_data[i].push([]);
 			}
-			for(var j=0;j<total.rm_total;j++){
+			for(var j=0;j<total.rm_total;j++){ // room
 				if(typeof num_rooms[j].level !== undefined){
 					if(num_rooms[j].level===(i+1)){
-						num_rooms[j].user_id?uid=num_rooms[j].user_id:uid='';
+						num_rooms[j].tenant_id?uid=num_rooms[j].tenant_id:uid='';
 						info_data[i].push({rid:num_rooms[j].id,uid:uid});
 					}	
 				}
 			}
 			
 		}
-		info_data.sort(function(a,b){
-			return b[0].rid-a[0].rid
-		})
+		if(info_data){
+			info_data.sort(function(a,b){
+				return b[0].rid-a[0].rid
+			})	
+		}
 
+if(info_data){
 	for(var x=0;x<info_data.length;x++){
-		display.push( <hr style={styles.hr_style} key={x} />)
+		display.push( <hr className="hr_style_a" key={x} />)
 		for(var y=0;y<info_data[x].length;y++){
 			var height_val=percen/info_data[x].length;
 			var val_box=height_val.toString().concat('%');
@@ -164,7 +154,7 @@ class Reserve extends Component{
 		}
 
 	}
-	
+}	
 		return(
 
 			<div style={styles.content_reserve}> 

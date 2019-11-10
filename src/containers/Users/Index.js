@@ -32,10 +32,12 @@ class UsersContainer extends Component {
       <div>
           <Header txtTitle='Users'/>
           {
-            !this.props.users?<div>Loading ...</div>
+            !this.props.users
+            ?<h1>Loading ...</h1>
           :
           <Users
               users={this.props.users}
+              onRemove={this.onRemove}
            />
           }
      </div>
@@ -45,7 +47,10 @@ class UsersContainer extends Component {
 
 
 UsersContainer=connect(
-  (state) => ({ users: state.users }),
+  (state) => (
+    { 
+      users: state.users
+    }),
   { onLoadUsers: loadUsers,onDelete:deleteUser }
 )(UsersContainer)
 

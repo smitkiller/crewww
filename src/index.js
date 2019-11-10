@@ -5,10 +5,11 @@ import { browserHistory } from 'react-router'
 import { AppContainer } from 'react-hot-loader'
 import Root from './containers/Root'
 import injectTapEventPlugin from 'react-tap-event-plugin';
- 
+
 injectTapEventPlugin();
 const initialState = window.__INITIAL_STATE__;
 const rootEl = document.getElementById('root')
+
 
 render(
  <AppContainer>

@@ -10,10 +10,11 @@ class ShowUserContainers extends Component{
 			<Header
 				txtTitle="แสดงรายละเอียด"
 			/>
-			{!this.props.user?<div>Loading ...</div>
+			{!this.props.user?<h1>Loading...</h1>
 				:
 				<ShowUser
 					user={this.props.user}
+					id={this.props.params.id}
 				/>
 			}
 			</div>

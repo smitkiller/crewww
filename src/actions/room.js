@@ -233,14 +233,16 @@ export const updateRoomscol=(values,level)=>(
             var statusRoomsCol;
             var data=[];
             var newValue=[];
+            var updateValue=[];
             var total=0;
             for(var i=0;i<level;i++){
               total=Number(total)+Number(values[i]);
+              updateValue.push(values[i]);
             }
 
               data = {
                           totalLevel:level,
-                          levelRooms:values,
+                          levelRooms:updateValue,
                           totalRooms:total
                     }
 
@@ -355,6 +357,7 @@ function delReserveFailure(){
 }
 
 export function addReserve(values,handleClose){
+  console.log(values);
   return dispatch=>{
     dispatch(addReserveRequest());
     addInfo('reserve',values)
